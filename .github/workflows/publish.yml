@@ -25,9 +25,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           registry-url: https://registry.npmjs.org
-      # Node 20 ships npm 10, which predates trusted publishing.
+      # The runner's bundled npm predates trusted publishing. npm 12 needs
+      # Node 22 or newer — hence the version above; on Node 20 this install fails
+      # outright with EBADENGINE.
       - run: npm install -g npm@latest
       - run: node --test test/
       - run: npm publish --access public
