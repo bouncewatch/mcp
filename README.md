@@ -4,7 +4,7 @@ Find out what changed at a company, and when.
 
 Bounce Watch tracks buying and momentum signals for companies — who raised money,
 who hired a senior person, who opened an office, won a customer, or announced a
-partnership. Thirty-nine kinds of event, and every one carries the date it
+partnership. Over forty kinds of event, and every one carries the date it
 happened. This repository holds the connection details and client configs for the hosted
 Model Context Protocol server.
 
