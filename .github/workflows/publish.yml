@@ -1,0 +1,33 @@
+name: publish
+
+# Trusted publishing (OIDC), not a stored token.
+#
+# npm is restricting tokens that bypass 2FA — account changes landed August 2026,
+# direct publishing follows in January 2027 — so there is deliberately no
+# NPM_TOKEN here and nothing to leak or rotate. GitHub mints a short-lived
+# credential for this one workflow in this one repository.
+#
+# Two things must NOT come back:
+#   --provenance     — trusted publishing attaches provenance on its own
+#   NODE_AUTH_TOKEN  — its presence sends npm down the legacy token path instead
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      # Node 20 ships npm 10, which predates trusted publishing.
+      - run: npm install -g npm@latest
+      - run: node --test test/
+      - run: npm publish --access public

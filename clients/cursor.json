@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "bouncewatch": {
+      "url": "https://api.bouncewatch.com/api/v1/mcp"
+    }
+  }
+}

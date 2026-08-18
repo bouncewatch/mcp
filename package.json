@@ -1,0 +1,42 @@
+{
+  "name": "@bouncewatch/mcp",
+  "version": "1.2.0",
+  "description": "Launcher for the hosted Bounce Watch MCP server — company buying and momentum signals, each carrying the date it happened",
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "company-data",
+    "buying-signals",
+    "sales-intelligence",
+    "funding",
+    "prospecting"
+  ],
+  "homepage": "https://github.com/bouncewatch/mcp#readme",
+  "bugs": "https://github.com/bouncewatch/mcp/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bouncewatch/mcp.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Bounce Watch",
+    "email": "sedat@bouncewatch.com"
+  },
+  "type": "module",
+  "bin": {
+    "bouncewatch-mcp": "bin/bouncewatch-mcp.js"
+  },
+  "files": [
+    "bin",
+    "server.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "node --test test/"
+  }
+}

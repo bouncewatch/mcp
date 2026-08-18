@@ -1,0 +1,34 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.bouncewatch/signals",
+  "title": "BounceWatch Signal Intelligence",
+  "description": "Millions of dated buying and momentum signals: who raised, who's hiring, what changed and when",
+  "version": "1.2.0",
+  "websiteUrl": "https://bouncewatch.com/mcp",
+  "icons": [
+    {
+      "src": "https://bouncewatch.com/assets-brand/apple-touch-icon.png",
+      "mimeType": "image/png",
+      "sizes": ["180x180"]
+    },
+    {
+      "src": "https://bouncewatch.com/assets-brand/bounce-logo-icon.png",
+      "mimeType": "image/png",
+      "sizes": ["64x64"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.bouncewatch.com/api/v1/mcp",
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "description": "Optional. Leave this blank to connect with OAuth — press Connect and approve in the browser, and no key is needed. Paste a key only if your client cannot do OAuth. Keys with free trial credits: https://bouncewatch.com/api-panel/mcp — same key and credit pool as the REST API, no separate subscription.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
