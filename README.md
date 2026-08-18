@@ -5,8 +5,8 @@ Find out what changed at a company, and when.
 Bounce Watch tracks buying and momentum signals for companies — who raised money,
 who hired a senior person, who opened an office, won a customer, or announced a
 partnership. Over forty kinds of event, and every one carries the date it
-happened. This repository holds the connection details, client configs and
-examples for the hosted Model Context Protocol server.
+happened. This repository holds the connection details and client configs for the hosted
+Model Context Protocol server.
 
 The server itself is hosted. There is nothing to install or run.
 
@@ -29,9 +29,10 @@ claude mcp add bouncewatch --transport http https://api.bouncewatch.com/api/v1/m
 
 Press Connect and approve in the browser. No key to paste.
 
-### Claude Desktop, Cursor, VS Code
+### Cursor, VS Code
 
-Ready-made config files are in [`clients/`](clients/). The short version:
+Ready-made config files are in [`clients/`](clients/). Cursor takes the URL
+directly:
 
 ```json
 {
@@ -43,11 +44,19 @@ Ready-made config files are in [`clients/`](clients/). The short version:
 }
 ```
 
+### Claude Desktop
+
+Add it in the app: **Settings → Connectors → Add custom connector**, with the URL
+above. Claude Desktop's config file will not take a remote URL — that file is for
+servers running on your own machine.
+
+If you would rather keep it in the config file anyway, point it at the launcher
+below.
+
 ### Clients that only speak stdio
 
-Most clients should use the URL above directly. For the ones that cannot, this
-repository publishes a launcher — a transparent pipe to the same endpoint, with
-no dependencies:
+For clients that cannot open an HTTP connection, this repository publishes a
+launcher — a transparent pipe to the same endpoint, with no dependencies:
 
 ```json
 {
@@ -114,9 +123,10 @@ Five saved prompts ship with the server.
 thing happened. That is what lets you separate this week's news from last year's.
 
 **Every signal carries a weight from 1 to 10.** A funding round outranks a
-conference booth. Background chatter — event attendance, news mentions, follower
-drift — sits at 1 or 2 and is about a third of everything held. Setting a floor
-of 3 or 4 searches on substance.
+conference booth. Roughly a third of what happens at any company is background —
+event attendance, news mentions, follower drift — and all of it is weighted 1 or
+2 so you can drop it in one filter. Set a floor of 3 or 4 and you are searching
+on substance.
 
 **An empty result is not the same as a quiet company.** Every answer states how
 recently the company was looked at. When coverage is thin, the answer says so
@@ -125,14 +135,15 @@ rather than implying nothing happened.
 ## Credits
 
 One question typically costs around 50 credits — a signal search plus a timeline
-for a handful of companies. The free tier's 2,500 credits cover roughly 48
-questions. `get_signal_taxonomy` and `get_refresh_status` cost nothing.
+for a handful of companies — so the free tier's 2,500 credits cover about 50 of
+them. `get_signal_taxonomy` and `get_refresh_status` cost nothing at all.
 
 Keys and balances: https://bouncewatch.com/api-panel/mcp
 
 ## Also listed at
 
-- [Official MCP Registry](https://registry.modelcontextprotocol.io) — `com.bouncewatch/signals`
+- Official MCP Registry, as `com.bouncewatch/signals`
+  ([entry](https://registry.modelcontextprotocol.io/v0/servers?search=bouncewatch))
 - [Glama](https://glama.ai/mcp/connectors/com.bouncewatch/signals)
 - [mcp.so](https://mcp.so/server/bounce-watch)
 - [Smithery](https://smithery.ai/servers/bouncewatch/signals)

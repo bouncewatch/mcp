@@ -1,7 +1,12 @@
 {
+  "_comment": "Claude Desktop's config file only starts servers on your own machine, so a remote URL does not belong here. Either add Bounce Watch in Settings -> Connectors with https://api.bouncewatch.com/api/v1/mcp, or use this file, which runs the launcher and pipes it to the same endpoint.",
   "mcpServers": {
     "bouncewatch": {
-      "url": "https://api.bouncewatch.com/api/v1/mcp"
+      "command": "npx",
+      "args": ["-y", "@bouncewatch/mcp"],
+      "env": {
+        "BOUNCEWATCH_API_KEY": "your-key-from-bouncewatch.com/api-panel/mcp"
+      }
     }
   }
 }
