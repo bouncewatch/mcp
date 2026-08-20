@@ -95,3 +95,26 @@ test('an unreachable server produces a JSON-RPC error, not a crash', async () =>
   assert.equal(messages[0].id, 7);
   assert.equal(messages[0].error.code, -32603);
 });
+
+test('starts without an API key and sends no credential header', async () => {
+  // A directory scanner and the MCP inspector both run this package with no
+  // credentials. It used to exit(1) and show them nothing; the server serves
+  // its catalogue to an anonymous caller now, so the launcher has to get out of
+  // the way. The header must be ABSENT, not empty — the server counts a
+  // credential that is present but unusable as a rejection, which would turn
+  // "no key" back into "bad key".
+  let seen;
+
+  const messages = await run('{"jsonrpc":"2.0","id":1,"method":"tools/list"}\n', {
+    env: { BOUNCEWATCH_API_KEY: undefined },
+    handler: (body, res, req) => {
+      seen = req.headers;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ jsonrpc: '2.0', id: body.id, result: { tools: [] } }));
+    },
+  });
+
+  assert.equal(messages.length, 1, 'the launcher has to stay up long enough to answer');
+  assert.equal(seen['x-api-key'], undefined);
+  assert.equal(seen['authorization'], undefined);
+});

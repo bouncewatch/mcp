@@ -16,6 +16,9 @@ https://api.bouncewatch.com/api/v1/mcp
 
 - **Transport:** HTTP streamable
 - **Auth:** OAuth, or an API key in `X-API-Key` / `Authorization: Bearer`
+- **Browsable without either:** the handshake, the tool list and the prompt list
+  answer an unauthenticated caller, so you can see what this offers before you
+  have an account. Running a tool needs one.
 - **Free tier:** 2,500 credits on every new account. No card, no expiry.
 - **Registry name:** `com.bouncewatch/signals`
 

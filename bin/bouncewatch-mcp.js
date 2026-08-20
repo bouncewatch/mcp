@@ -17,6 +17,9 @@
  * Usage:
  *   BOUNCEWATCH_API_KEY=... npx @bouncewatch/mcp
  *   npx @bouncewatch/mcp --url https://api.bouncewatch.com/api/v1/mcp
+ *
+ * The key is optional to START — without one the tool list still loads and tool
+ * calls are refused with an explanation. See the note above the header block.
  */
 
 const DEFAULT_URL = 'https://api.bouncewatch.com/api/v1/mcp';
@@ -29,22 +32,45 @@ function readArg(name) {
 const endpoint = readArg('url') || process.env.BOUNCEWATCH_MCP_URL || DEFAULT_URL;
 const apiKey = readArg('key') || process.env.BOUNCEWATCH_API_KEY;
 
-if (!apiKey) {
-  process.stderr.write(
-    'bouncewatch-mcp: no API key.\n' +
-    'Set BOUNCEWATCH_API_KEY, or pass --key. Get one at https://bouncewatch.com/api-panel/mcp\n' +
-    'Clients that support OAuth can skip this launcher and connect to the URL directly.\n'
-  );
-  process.exit(1);
-}
-
 const headers = {
   'Content-Type': 'application/json',
   'Accept': 'application/json, text/event-stream',
-  'X-API-Key': apiKey,
   'MCP-Protocol-Version': '2025-06-18',
   'User-Agent': 'bouncewatch-mcp-launcher',
 };
+
+/**
+ * No key is a warning, not a stop.
+ *
+ * This used to exit(1). That made sense while the server refused everything
+ * without credentials — starting up only to fail on the first call would have
+ * been a worse way to learn the same thing. It stopped making sense when the
+ * server opened its catalogue: describing it is public now, so a launcher that
+ * will not start is stricter than the thing it is a pipe to, and anything that
+ * inspects the package without credentials — a directory's scanner, someone
+ * running the MCP inspector to see what this is — is told nothing at all rather
+ * than being shown ten tools.
+ *
+ * The header is OMITTED rather than sent empty, deliberately. The server treats
+ * a credential that is present but unusable as a rejection, which is right: a
+ * revoked key must not be quietly downgraded to an anonymous session. Sending
+ * `X-API-Key: undefined` would trip exactly that and turn "no key" into "bad
+ * key" — the one failure mode this change is meant to avoid.
+ *
+ * What a tool call then returns is not a bare 401: the server answers with a
+ * sentence naming both ways in. So the information this exit used to carry is
+ * still delivered, twice — here, and again at the moment it actually matters.
+ */
+if (apiKey) {
+  headers['X-API-Key'] = apiKey;
+} else {
+  process.stderr.write(
+    'bouncewatch-mcp: starting without an API key.\n' +
+    'The tool list will load, but every tool call will be refused until this connection has one.\n' +
+    'Set BOUNCEWATCH_API_KEY, or pass --key. Get one at https://bouncewatch.com/mcp\n' +
+    'Clients that support OAuth can skip this launcher and connect to the URL directly.\n'
+  );
+}
 
 /** Write one JSON-RPC message to stdout, newline delimited. */
 function emit(message) {

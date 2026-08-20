@@ -31,5 +31,11 @@ jobs:
       # Node 22 or newer — hence the version above; on Node 20 this install fails
       # outright with EBADENGINE.
       - run: npm install -g npm@latest
-      - run: node --test test/
+      # Globbed, not `--test test/`. Node stopped treating a bare directory as a
+      # search root and now tries to load it as a module, so the directory form
+      # fails outright on the version pinned above. This workflow has never run
+      # — 1.2.0 was published by hand, because npm will not enable trusted
+      # publishing for a package that does not exist yet — so the break was
+      # sitting here unhit, waiting for the first release to use it.
+      - run: node --test test/*.test.js
       - run: npm publish --access public
