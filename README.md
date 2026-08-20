@@ -19,6 +19,10 @@ https://api.bouncewatch.com/api/v1/mcp
 - **Browsable without either:** the handshake, the tool list and the prompt list
   answer an unauthenticated caller, so you can see what this offers before you
   have an account. Running a tool needs one.
+
+There is a `Dockerfile` here for directories that build and scan what they list.
+It packages the stdio launcher and nothing else — the server itself is hosted, so
+running the image gives you a connection to Bounce Watch, not a copy of it.
 - **Free tier:** 2,500 credits on every new account. No card, no expiry.
 - **Registry name:** `com.bouncewatch/signals`
 
