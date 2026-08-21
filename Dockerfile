@@ -6,12 +6,16 @@
 # Deploying it does not stand up a copy of Bounce Watch — it stands up a
 # connection to it, and the account behind that connection is still yours.
 #
-# It exists so the package can be built, security-scanned and released on
-# directories that publish containers. Their build test starts the image and
-# checks the server answers, which is why the launcher no longer refuses to
-# start without a key: the handshake, the tool list and the prompt list are
-# public, and a tool call comes back with a message naming both ways to
-# authenticate.
+# It is here for anyone who runs their MCP clients in containers and wants the
+# launcher in one too. Note what it is NOT for: directories that build and scan
+# what they list generate their own Dockerfile from a build spec and clone this
+# repository themselves — Glama does exactly that, and this file plays no part
+# in it. It was added on the assumption that it would, which was wrong.
+#
+# What those build tests DO depend on is the launcher starting without a key.
+# They boot the image and check the server answers, and until 1.3.0 it exited
+# instead. The handshake, the tool list and the prompt list are public; a tool
+# call comes back with a message naming both ways to authenticate.
 #
 #   docker build -t bouncewatch-mcp .
 #   docker run -i --rm -e BOUNCEWATCH_API_KEY=... bouncewatch-mcp
